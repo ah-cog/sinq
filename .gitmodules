@@ -1,0 +1,6 @@
+[submodule "sinq-server"]
+	path = sinq-server
+	url = https://github.com/mgub/sinq-server
+[submodule "sinq-ios"]
+	path = sinq-ios
+	url = https://github.com/mgub/sinq-ios
