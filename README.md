@@ -63,11 +63,11 @@ The client defaults to `localhost:18000` for browsers/iOS and `10.0.2.2:18000` f
 
 ### Android networking in this workspace
 
-The dedicated local AVD is `SINQ_API_33`; the helper selects it when present. Set `SINQ_ANDROID_TARGET` or `SINQ_IOS_TARGET` to choose another emulator. With the SDK tools on PATH, it can also be selected explicitly:
+The dedicated local AVD is `SINQ_API_33`; the helper selects it when present. Set `SINQ_ANDROID_TARGET` or `SINQ_IOS_TARGET` to choose another emulator. The helper resolves its running device serial and sets up the ADB tunnel. With the SDK tools on PATH, the current running emulator can also be selected explicitly:
 
 ```sh
 cd sinq-ios
-npx cordova run android --emulator --target=SINQ_API_33
+npx cordova run android --emulator --target=emulator-5580
 ```
 
 If the emulator cannot reach the host through `10.0.2.2`, use an ADB tunnel. For this running emulator:

@@ -117,6 +117,20 @@ def mobile(platform):
     target = env.get(f'SINQ_{platform.upper()}_TARGET')
     if platform == 'android' and not target and (Path.home() / '.android/avd/SINQ_API_33.ini').exists():
         target = 'SINQ_API_33'
+    if platform == 'android' and target:
+        adb = shutil.which('adb', path=env['PATH'])
+        if adb:
+            devices = subprocess.run([adb, 'devices'], capture_output=True, text=True, env=env, check=True)
+            for line in devices.stdout.splitlines()[1:]:
+                fields = line.split()
+                if len(fields) != 2 or fields[1] != 'device' or not fields[0].startswith('emulator-'):
+                    continue
+                serial = fields[0]
+                name = subprocess.run([adb, '-s', serial, 'emu', 'avd', 'name'], capture_output=True, text=True, env=env, check=True)
+                if target == serial or target in name.stdout.splitlines():
+                    target = serial
+                    subprocess.run([adb, '-s', serial, 'reverse', 'tcp:18000', 'tcp:18000'], env=env, check=True)
+                    break
     if target:
         command.extend(['--target', target])
     subprocess.run(command, cwd=MOBILE, env=env, check=True)
