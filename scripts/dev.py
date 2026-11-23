@@ -50,7 +50,7 @@ def start():
         raise SystemExit('Run python3 scripts/dev.py setup first.')
     commands = {
         'server': ([str(PYTHON), 'manage.py', 'runserver', '127.0.0.1:18000', '--noreload'], SERVER),
-        'mobile': (['node', 'scripts/serve.mjs'], MOBILE),
+        'mobile': (['node', str(MOBILE / 'scripts/serve.mjs')], MOBILE),
     }
     for name, (command, cwd) in commands.items():
         if ready(ENDPOINTS[name]):
@@ -76,7 +76,7 @@ def stop():
         pid = int(file.read_text())
         # Check command identity before using a stored PID, which may have been reused.
         result = subprocess.run(['ps', '-p', str(pid), '-o', 'command='], capture_output=True, text=True)
-        expected = 'manage.py runserver' if name == 'server' else 'node scripts/serve.mjs'
+        expected = f'{PYTHON} manage.py runserver' if name == 'server' else f'node {MOBILE / "scripts/serve.mjs"}'
         if expected in result.stdout:
             try:
                 os.killpg(pid, signal.SIGTERM)
