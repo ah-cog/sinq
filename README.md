@@ -21,9 +21,9 @@ cd sinq
 docker compose up --build -d --wait
 ```
 
-- Client: <http://localhost:8080/>
-- Server: <http://localhost:8000/>
-- API: <http://localhost:8000/sinq/api/questions/>
+- Client: <http://localhost:18080/>
+- Server: <http://localhost:18000/>
+- API: <http://localhost:18000/sinq/api/questions/>
 
 Compose builds both component Dockerfiles, runs migrations, seeds a repeatable demo, and waits for health checks. The server runs with Gunicorn; both images use unprivileged users. SQLite and uploaded photos persist in the `sinq-data` named volume. Ports bind to loopback.
 
@@ -37,7 +37,7 @@ docker compose down
 
 ## Optional host development
 
-Requires Node.js 24+ and Python 3.13+ (validated with 3.14). Stop Compose first to free ports 8000 and 8080.
+Requires Node.js 24+ and Python 3.13+ (validated with 3.14). Stop Compose first to free ports 18000 and 18080.
 
 ```sh
 python3 scripts/dev.py setup
@@ -59,7 +59,7 @@ python3 scripts/dev.py android
 
 iOS needs Xcode, first-launch components, and an installed simulator runtime. Android needs JDK 17, Android SDK platform 36 and build tools 36.0.0, compatible Gradle (on PATH or in an existing wrapper cache), and an AVD. Configure `JAVA_HOME`, `ANDROID_HOME`, and `PATH`; on Homebrew macOS the helper recognizes `/opt/homebrew/share/android-commandlinetools`.
 
-The client defaults to `localhost:8000` for browsers/iOS and `10.0.2.2:8000` for Android emulators. The server listens on loopback. Native projects are generated from `sinq-ios/config.xml` and the lockfile.
+The client defaults to `localhost:18000` for browsers/iOS and `10.0.2.2:18000` for Android emulators. The server listens on loopback. Native projects are generated from `sinq-ios/config.xml` and the lockfile.
 
 ## Verify the system
 

@@ -16,7 +16,7 @@ STATE = ROOT / '.local'
 SERVER = ROOT / 'sinq-server'
 MOBILE = ROOT / 'sinq-ios'
 PYTHON = SERVER / '.venv/bin/python'
-ENDPOINTS = {'server': 'http://localhost:8000/sinq/api/questions/', 'mobile': 'http://localhost:8080/'}
+ENDPOINTS = {'server': 'http://localhost:18000/sinq/api/questions/', 'mobile': 'http://localhost:18080/'}
 
 
 def run(args, cwd=ROOT):
@@ -49,7 +49,7 @@ def start():
     if not PYTHON.exists() or not (MOBILE / 'node_modules').exists():
         raise SystemExit('Run python3 scripts/dev.py setup first.')
     commands = {
-        'server': ([str(PYTHON), 'manage.py', 'runserver', '127.0.0.1:8000', '--noreload'], SERVER),
+        'server': ([str(PYTHON), 'manage.py', 'runserver', '127.0.0.1:18000', '--noreload'], SERVER),
         'mobile': (['node', 'scripts/serve.mjs'], MOBILE),
     }
     for name, (command, cwd) in commands.items():

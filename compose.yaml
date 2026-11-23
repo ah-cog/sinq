@@ -4,7 +4,7 @@ services:
     build:
       context: ${SINQ_SERVER_CONTEXT:-./sinq-server}
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:18000:8000"
     environment:
       SINQ_DEBUG: "1"
       SINQ_ALLOWED_HOSTS: localhost,127.0.0.1,[::1],10.0.2.2,server
@@ -12,16 +12,27 @@ services:
       SINQ_SEED_DEMO: "1"
     volumes:
       - sinq-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz/', timeout=10)"]
+      interval: 30s
+      timeout: 30s
+      start_period: 180s
+      retries: 5
     init: true
     restart: unless-stopped
   mobile:
     build:
       context: ${SINQ_MOBILE_CONTEXT:-./sinq-ios}
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:18080:8080"
     depends_on:
       server:
         condition: service_healthy
+    healthcheck:
+      interval: 30s
+      timeout: 30s
+      start_period: 60s
+      retries: 5
     read_only: true
     cap_drop:
       - ALL
