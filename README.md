@@ -63,7 +63,7 @@ The client defaults to `localhost:18000` for browsers/iOS and `10.0.2.2:18000` f
 
 ### Android networking in this workspace
 
-The dedicated local AVD is `SINQ_API_33`. To select it explicitly:
+The dedicated local AVD is `SINQ_API_33`; the helper selects it when present. Set `SINQ_ANDROID_TARGET` or `SINQ_IOS_TARGET` to choose another emulator. With the SDK tools on PATH, it can also be selected explicitly:
 
 ```sh
 cd sinq-ios

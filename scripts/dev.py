@@ -106,14 +106,20 @@ def mobile(platform):
     if platform == 'android' and sdk.exists():
         env.setdefault('ANDROID_HOME', str(sdk))
         env.setdefault('JAVA_HOME', '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home')
-        env['PATH'] = str(sdk / 'platform-tools') + os.pathsep + env['PATH']
+        env['PATH'] = os.pathsep.join([str(sdk / 'emulator'), str(sdk / 'platform-tools'), str(sdk / 'cmdline-tools/latest/bin'), env['PATH']])
         if not shutil.which('gradle', path=env['PATH']):
             cached = sorted((Path.home() / '.gradle/wrapper/dists').glob('gradle-*/*/gradle-*/bin/gradle'))
             if cached:
                 env['PATH'] = str(cached[-1].parent) + os.pathsep + env['PATH']
     if not (MOBILE / 'platforms' / platform).exists():
         subprocess.run(['npx', 'cordova', 'platform', 'add', platform], cwd=MOBILE, env=env, check=True)
-    subprocess.run(['npx', 'cordova', 'run', platform, '--emulator'], cwd=MOBILE, env=env, check=True)
+    command = ['npx', 'cordova', 'run', platform, '--emulator']
+    target = env.get(f'SINQ_{platform.upper()}_TARGET')
+    if platform == 'android' and not target and (Path.home() / '.android/avd/SINQ_API_33.ini').exists():
+        target = 'SINQ_API_33'
+    if target:
+        command.extend(['--target', target])
+    subprocess.run(command, cwd=MOBILE, env=env, check=True)
 
 
 if __name__ == '__main__':
