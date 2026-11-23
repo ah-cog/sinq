@@ -48,4 +48,4 @@ Failed to start launchd_sim: could not bind to session,
 launchd_sim may have crashed or quit responding
 ```
 
-The iOS application build and signature checks passed; a live iOS launch has not been verified. The selected device is `4E45CE3D-00DB-4528-A7B7-E5638732657A`. Runtime repair can be attempted with `xcodebuild -downloadPlatform iOS`, followed by `xcrun simctl list runtimes` and the native launch instructions in the main README.
+The iOS application build and signature checks passed; a live iOS launch has not been verified. The selected device is `4E45CE3D-00DB-4528-A7B7-E5638732657A`. A subsequent `xcodebuild -downloadPlatform iOS` completed and installed iOS 27.2. A fresh `SINQ_iPhone_27_2` simulator (`C2122C71-EC61-4D29-9DFE-E3B0BBEAC4C4`) accepted the boot command and started `launchd_sim`, but boot-status and app-install operations did not complete. Live iOS verification remains outstanding on this host.
