@@ -61,6 +61,23 @@ iOS needs Xcode, first-launch components, and an installed simulator runtime. An
 
 The client defaults to `localhost:18000` for browsers/iOS and `10.0.2.2:18000` for Android emulators. The server listens on loopback. Native projects are generated from `sinq-ios/config.xml` and the lockfile.
 
+### Android networking in this workspace
+
+The dedicated local AVD is `SINQ_API_33`. To select it explicitly:
+
+```sh
+cd sinq-ios
+npx cordova run android --emulator --target=SINQ_API_33
+```
+
+If the emulator cannot reach the host through `10.0.2.2`, use an ADB tunnel. For this running emulator:
+
+```sh
+adb -s emulator-5580 reverse tcp:18000 tcp:18000
+```
+
+In the app’s **Server connection**, choose `http://127.0.0.1:18000`. The app remembers this choice; recreate the ADB mapping after an emulator restart. Use `adb devices` to find the serial if it changes. This workspace’s AVD uses two cores, 2 GB RAM, and SwiftShader graphics.
+
 ## Verify the system
 
 With Compose running:
