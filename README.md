@@ -65,6 +65,17 @@ The client defaults to `localhost:8000` for browsers/iOS and `10.0.2.2:8000` for
 
 With Compose running:
 
+For a quick network check without installing browser tooling:
+
+```sh
+python3 scripts/smoke.py
+```
+
+This creates one linked inquiry, uploads a photo, downloads it again, and verifies relationship filters, ordered steps, both API prefixes, and the client endpoint.
+
+For the full backend and mobile browser tests:
+
+
 ```sh
 docker compose exec server python manage.py test
 cd sinq-ios
