@@ -99,12 +99,18 @@ def test():
 
 
 def mobile(platform):
+    if not (MOBILE / 'node_modules/.bin/cordova').exists():
+        run(['npm', 'ci'], MOBILE)
     env = os.environ.copy()
     sdk = Path('/opt/homebrew/share/android-commandlinetools')
     if platform == 'android' and sdk.exists():
         env.setdefault('ANDROID_HOME', str(sdk))
         env.setdefault('JAVA_HOME', '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home')
         env['PATH'] = str(sdk / 'platform-tools') + os.pathsep + env['PATH']
+        if not shutil.which('gradle', path=env['PATH']):
+            cached = sorted((Path.home() / '.gradle/wrapper/dists').glob('gradle-*/*/gradle-*/bin/gradle'))
+            if cached:
+                env['PATH'] = str(cached[-1].parent) + os.pathsep + env['PATH']
     if not (MOBILE / 'platforms' / platform).exists():
         subprocess.run(['npx', 'cordova', 'platform', 'add', platform], cwd=MOBILE, env=env, check=True)
     subprocess.run(['npx', 'cordova', 'run', platform, '--emulator'], cwd=MOBILE, env=env, check=True)

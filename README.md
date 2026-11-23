@@ -50,14 +50,14 @@ python3 scripts/dev.py stop
 
 ## Mobile emulators
 
-The same client runs in browsers and native Cordova WebViews.
+The same client runs in browsers and native Cordova WebViews. The helper installs the client’s locked npm dependencies when needed.
 
 ```sh
 python3 scripts/dev.py ios
 python3 scripts/dev.py android
 ```
 
-iOS needs Xcode, first-launch components, and an installed simulator runtime. Android needs JDK 17, Android SDK platform 36 and build tools 36.0.0, compatible Gradle, and an AVD. Configure `JAVA_HOME`, `ANDROID_HOME`, and `PATH`; on Homebrew macOS the helper recognizes `/opt/homebrew/share/android-commandlinetools`.
+iOS needs Xcode, first-launch components, and an installed simulator runtime. Android needs JDK 17, Android SDK platform 36 and build tools 36.0.0, compatible Gradle (on PATH or in an existing wrapper cache), and an AVD. Configure `JAVA_HOME`, `ANDROID_HOME`, and `PATH`; on Homebrew macOS the helper recognizes `/opt/homebrew/share/android-commandlinetools`.
 
 The client defaults to `localhost:8000` for browsers/iOS and `10.0.2.2:8000` for Android emulators. The server listens on loopback. Native projects are generated from `sinq-ios/config.xml` and the lockfile.
 
